@@ -52,6 +52,30 @@ void StateClimate::display() const {
               << ", Temp (F): " << temp << ", Temp (C): " << tempc << std::endl;
 }
 
+
+// Binary Search function for fips (exact match)
+int binarySearch(const std::vector<StateClimate>& data, int targetFips) {
+    int low = 0;
+    int high = data.size() - 1;
+
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+        
+        if (data[mid].getFips() == targetFips) {
+            return mid; // Found the target FIPS
+        }
+        else if (data[mid].getFips() < targetFips) {
+            low = mid + 1; // Search in the right half
+        }
+        else {
+            high = mid - 1; // Search in the left half
+        }
+    }
+
+    return -1; // If the FIPS is not found
+}
+
+
 int main() {
     std::vector<StateClimate> climateData;
     std::ifstream file("climdiv_state_year.csv");
@@ -74,11 +98,30 @@ int main() {
     }
 
     file.close();
+    
+    int targetFips;
+    char choice;
+    do {
+        std::cout << "Enter FIPS number to search: ";
+        std::cin >> targetFips;
 
-    // Display data
+        int index = binarySearch(climateData, targetFips);
+        if (index != -1) {
+            climateData[index].display();
+        } else {
+            std::cout << "FIPS number not found." << std::endl;
+        }
+
+        std::cout << "Do you want to search again? (y/n): ";
+        std::cin >> choice;
+    } while (choice == 'y' || choice == 'Y');
+
+
+   /*  // Display data
     for (const auto &entry : climateData) {
         entry.display();
     }
+    */
 
     return 0;
-}
+} 
