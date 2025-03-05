@@ -10,24 +10,25 @@
 #include <sstream>
 //#include "StateClimate.h"
 
+// Class that stores climate data for state and year
 class StateClimate {
     private:
-        int fips;
-        int year;
-        double temp;
-        double tempc;
+        int fips; // FIPS code for state
+        int year; // Year of the data
+        double temp; // Temperature in Fahrenheit
+        double tempc; // Temperature in Celsius
     
     public:
         // Constructor
         StateClimate(int f, int y, double t, double tc);
     
-        // Getters
+        // Getter functions
         int getFips() const;
         int getYear() const;
         double getTemp() const;
         double getTempC() const;
     
-        // Setters
+        // Setter functions 
         void setFips(int f);
         void setYear(int y);
         void setTemp(double t);
@@ -37,21 +38,22 @@ class StateClimate {
         void display() const;
 };
 
+// Constructor implementation
 StateClimate::StateClimate(int f, int y, double t, double tc) : fips(f), year(y), temp(t), tempc(tc) {}
 
-// Getters
+// Getter functions implementation
 int StateClimate::getFips() const { return fips; }
 int StateClimate::getYear() const { return year; }
 double StateClimate::getTemp() const { return temp; }
 double StateClimate::getTempC() const { return tempc; }
 
-// Setters
+// Setter functions implementation
 void StateClimate::setFips(int f) { fips = f; }
 void StateClimate::setYear(int y) { year = y; }
 void StateClimate::setTemp(double t) { temp = t; }
 void StateClimate::setTempC(double tc) { tempc = tc; }
 
-// Display function
+// Display function for climate data of a state
 void StateClimate::display() const {
     std::cout << "FIPS: " << fips << ", Year: " << year 
               << ", Temp (F): " << temp << ", Temp (C): " << tempc << std::endl;
@@ -80,9 +82,11 @@ int binarySearch(const std::vector<StateClimate>& data, int targetFips) {
     return -1; // If the FIPS is not found
 }
 
-
+// Main function that stores and processes climate data
 int main() {
     std::vector<StateClimate> climateData;
+
+    // Opens the climate data file
     std::ifstream file("climdiv_state_year.csv");
     
     if (!file) {
@@ -90,6 +94,7 @@ int main() {
         return 1;
     }
 
+    // Reads data from file and stores it in the vector
     std::string line;
     std::getline(file, line); // Skip header line
     while (std::getline(file, line)) {
@@ -104,9 +109,10 @@ int main() {
 
     file.close();
     
+    // User input loop for searching climate by FIPS code
     std::string input;
     do {
-        std::cout << "Enter a state name to search (enter 'exit' to quit): ";
+        std::cout << "Enter a state FIPS number to search (enter 'exit' to quit): ";
         std::cin >> input;
 
         if (input == "exit") {
