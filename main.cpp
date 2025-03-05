@@ -1,3 +1,8 @@
+// Samuel Oseguera
+// Date: 3/3/2025
+// Assignment: Climate Data
+
+
 // main.cpp
 #include <iostream>
 #include <fstream>
@@ -99,22 +104,26 @@ int main() {
 
     file.close();
     
-    int targetFips;
-    char choice;
+    std::string input;
     do {
-        std::cout << "Enter FIPS number to search: ";
-        std::cin >> targetFips;
+        std::cout << "Enter a state name to search (enter 'exit' to quit): ";
+        std::cin >> input;
 
+        if (input == "exit") {
+            std::cout << "Goodbye!" << std::endl;
+            break;
+        }
+
+        int targetFips = std::stoi(input);
         int index = binarySearch(climateData, targetFips);
         if (index != -1) {
             climateData[index].display();
         } else {
-            std::cout << "FIPS number not found." << std::endl;
+            std::cout << "State not found. Please try again." << std::endl;
         }
-
-        std::cout << "Do you want to search again? (y/n): ";
-        std::cin >> choice;
-    } while (choice == 'y' || choice == 'Y');
+        std::cout << std::endl; // Add a space after each run through
+        std::cout << std::endl; // Add an extra space for readability
+    } while (true);
 
 
    /*  // Display data
@@ -124,4 +133,4 @@ int main() {
     */
 
     return 0;
-} 
+}
